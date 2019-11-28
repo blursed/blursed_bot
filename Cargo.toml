@@ -1,0 +1,12 @@
+[package]
+name = "blursed_bot"
+version = "0.1.0"
+authors = ["Jason Shin <visualbbasic@gmail.com>", "Matt Harvey <software@matthewharvey.net>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+slack = "0.22.0"
+reqwest = "0.9.22"
+serde = "1.0.103"
