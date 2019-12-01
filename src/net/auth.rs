@@ -1,12 +1,10 @@
 use base64;
 use reqwest;
 use reqwest::header::AUTHORIZATION;
+use crate::shared::config::Config;
 
-pub struct Auth {
-    username: String,
-    password: String,
-    id: String,
-    secret: String,
+pub struct Auth<'a> {
+    config: &'a Config,
 }
 
 #[derive(Deserialize, Debug)]
@@ -17,13 +15,10 @@ pub struct AccessTokenResponse {
     scope: String,
 }
 
-impl Auth {
-    pub fn new(username: String, password: String, id: String, secret: String) -> Auth {
+impl<'a> Auth<'a> {
+    pub fn new(config: &'a Config) -> Auth {
         Auth {
-            username,
-            password,
-            id,
-            secret,
+            config,
         }
     }
 
