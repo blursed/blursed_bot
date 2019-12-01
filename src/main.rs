@@ -9,10 +9,16 @@
     unused_import_braces,
     unused_qualifications
 )]
-
+#[macro_use]
+extern crate serde;
 mod chat;
 
 use crate::chat::handler::Handler;
+
+mod net;
+
+use crate::net::auth::Auth;
+use net::auth;
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
