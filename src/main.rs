@@ -11,6 +11,7 @@
 )]
 #[macro_use]
 extern crate serde;
+extern crate dotenv;
 mod chat;
 
 use crate::chat::handler::Handler;
@@ -19,8 +20,8 @@ mod net;
 mod shared;
 
 use crate::net::auth::Auth;
-use net::auth;
 use crate::shared::config::Config;
+use net::auth;
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
