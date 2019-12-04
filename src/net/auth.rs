@@ -2,8 +2,10 @@ use crate::shared::config::Config;
 use base64;
 use reqwest;
 use reqwest::header::AUTHORIZATION;
+use reqwest::Client;
 
 pub struct Auth<'a> {
+    client: Client,
     config: &'a Config,
 }
 
@@ -16,19 +18,19 @@ pub struct AccessTokenResponse {
 }
 
 impl<'a> Auth<'a> {
-    pub fn new(config: &'a Config) -> Auth {
-        Auth { config }
+    pub fn new(client: Client, config: &'a Config) -> Auth {
+        Auth { client, config }
     }
 
-    pub fn get_access_token(&self) {
-        let client = reqwest::Client::new();
+    pub fn get_access_token(&self) -> String {
         let params = [
             ("grant_type", "password"),
             ("username", &self.config.username),
             ("password", &self.config.password),
         ];
 
-        let mut result = client
+        let mut result = self
+            .client
             .post("https://www.reddit.com/api/v1/access_token/.json")
             .form(&params)
             .header(AUTHORIZATION, format!("Basic {:?}", self.get_basic_token()))
@@ -36,7 +38,7 @@ impl<'a> Auth<'a> {
             .unwrap();
 
         let access_token: AccessTokenResponse = result.json().unwrap();
-        println!("checking result {:?}", access_token.access_token);
+        access_token.access_token
     }
 
     fn get_basic_token(&self) -> String {
