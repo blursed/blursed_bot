@@ -17,10 +17,11 @@ use crate::chat::handler::Handler;
 fn main() {
     let args: Vec<String> = std::env::args().collect();
     let api_key = match args.len() {
-        0 | 1 => panic!("No api-key in args! Usage: cargo run --example slack_example -- <api-key>"),
+        0 => panic!("No api-key in args! Usage: cargo run <api-key>"),
         x => args[x - 1].clone(),
     };
     let mut chat_handler = Handler;
+    println!("api_key: {}", &api_key);
     let r = slack::RtmClient::login_and_run(&api_key, &mut chat_handler);
     match r {
         Ok(_) => {}
