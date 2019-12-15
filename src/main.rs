@@ -20,6 +20,7 @@ mod net;
 mod shared;
 
 use crate::net::auth::Auth;
+use crate::net::reddit_client::RedditClient;
 use crate::shared::config::Config;
 use net::auth;
 

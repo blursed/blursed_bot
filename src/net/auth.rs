@@ -5,7 +5,7 @@ use reqwest::header::AUTHORIZATION;
 use reqwest::Client;
 
 pub struct Auth<'a> {
-    client: Client,
+    client: &'a Client,
     config: &'a Config,
 }
 
@@ -18,7 +18,7 @@ pub struct AccessTokenResponse {
 }
 
 impl<'a> Auth<'a> {
-    pub fn new(client: Client, config: &'a Config) -> Auth {
+    pub fn new(client: &'a Client, config: &'a Config) -> Auth<'a> {
         Auth { client, config }
     }
 
