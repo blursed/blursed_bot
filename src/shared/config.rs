@@ -1,12 +1,13 @@
 use dotenv::dotenv;
 use std::env;
 
-#[derive(Debug)]
 pub struct Config {
     pub username: String,
     pub password: String,
     pub id: String,
     pub secret: String,
+    pub access_token_url: String,
+    pub api_base_url: String,
 }
 
 impl Config {
@@ -29,6 +30,17 @@ impl Config {
                 Ok(s) => s,
                 Err(_e) => panic!("Env Error: REDDIT_APP_SECRET does not exist"),
             },
+            access_token_url: match env::var("REDDIT_API_ACCESS_TOKEN_URL") {
+                Ok(s) => s,
+                Err(_e) => panic!("Env Error: REDDIT_API_ACCESS_TOKEN_URL does not exist")
+            },
+            api_base_url: match env::var("REDDIT_API_BASE_URL") {
+                Ok(s) => s,
+                Err(_e) => panic!("Env Error: REDDIT_API_BASE_URL does not exist"),
+            },
         }
+    }
+    pub fn api_url(&self, path: &str) -> String {
+        format!("{}/{}", &self.api_base_url, path)
     }
 }
