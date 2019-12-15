@@ -37,6 +37,7 @@ impl<'a> Auth<'a> {
             .send()
             .unwrap();
 
+        println!("checking result {:?}", result);
         let access_token: AccessTokenResponse = result.json().unwrap();
         access_token.access_token
     }
