@@ -33,7 +33,7 @@ impl Config {
             },
             access_token_url: match env::var("REDDIT_API_ACCESS_TOKEN_URL") {
                 Ok(s) => s,
-                Err(_e) => panic!("Env Error: REDDIT_API_ACCESS_TOKEN_URL does not exist")
+                Err(_e) => panic!("Env Error: REDDIT_API_ACCESS_TOKEN_URL does not exist"),
             },
             api_base_url: match env::var("REDDIT_API_BASE_URL") {
                 Ok(s) => s,

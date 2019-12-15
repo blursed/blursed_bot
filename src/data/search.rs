@@ -1,3 +1,3 @@
-pub fn search() {
+pub fn search(config: Config, query: &str) {
 
 }
