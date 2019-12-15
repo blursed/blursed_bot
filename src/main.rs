@@ -36,4 +36,13 @@ fn main() {
         Ok(_) => {}
         Err(err) => panic!("Error: {}", err),
     }
+    let client = reqwest::Client::new();
+    let config = Config::load();
+    let reddit_client = RedditClient::new(&config, &client);
+    let params = [
+        ("q", "waiting"),
+        ("restrict_sr", "true"),
+    ];
+    reddit_client.get("r/blursedimages/search", &params);
+    println!("api url {:?}", config.api_url("test"));
 }

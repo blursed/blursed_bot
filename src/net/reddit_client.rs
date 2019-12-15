@@ -3,6 +3,7 @@ use crate::shared::config::Config;
 use reqwest;
 use reqwest::header::AUTHORIZATION;
 use reqwest::Client;
+use serde::Serialize;
 
 pub struct RedditClient<'a> {
     auth: Auth<'a>,
@@ -21,15 +22,16 @@ impl<'a> RedditClient<'a> {
         }
     }
 
-    pub fn get<T>(&self, path: &str, params: &T) {
+    pub fn get<T: Serialize>(&self, path: &str, params: &T) {
         let access_token = self.auth.get_access_token();
-        let result = self
+        println!("checking access token {:?}", format!("Bearer {}", access_token));
+        let mut result = self
             .client
             .get(self.config.api_url(path).as_str())
-            .form(params)
-            .header(AUTHORIZATION, format!("Bearer {:?}", access_token))
+            .query(params)
+            .header("Authorization", format!("Bearer {}", access_token))
             .send()
             .unwrap();
-        println!("checking get result {:?}", result)
+        println!("checking get result {:?}", result.text())
     }
 }
