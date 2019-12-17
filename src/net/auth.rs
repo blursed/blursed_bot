@@ -49,14 +49,14 @@ impl<'a> Auth<'a> {
 
 #[cfg(test)]
 mod test {
-    use mockito::{mock, Matcher};
-    use serde_json::json;
     use crate::net::auth::Auth;
     use crate::shared::config::Config;
+    use mockito::{mock, Matcher};
     use reqwest::header::AUTHORIZATION;
+    use serde_json::json;
 
     #[test]
-    fn test_something() {
+    fn get_access_token_successfully() {
         let client = reqwest::Client::new();
         let config = Config::load();
         let auth = Auth::new(&client, &config);

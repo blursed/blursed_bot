@@ -1,7 +1,7 @@
 use dotenv::dotenv;
-use std::env;
 #[cfg(test)]
 use mockito;
+use std::env;
 
 #[derive(Debug)]
 pub struct Config {
@@ -37,14 +37,20 @@ impl Config {
                 Ok(s) => {
                     if cfg!(test) {
                         format!("{}/access_token", mockito::server_url())
-                    } else { s }
-                },
+                    } else {
+                        s
+                    }
+                }
                 Err(_e) => panic!("Env Error: REDDIT_API_ACCESS_TOKEN_URL does not exist"),
             },
             api_base_url: match env::var("REDDIT_API_BASE_URL") {
                 Ok(s) => {
-                    if cfg!(test) { mockito::server_url() } else { s }
-                },
+                    if cfg!(test) {
+                        mockito::server_url()
+                    } else {
+                        s
+                    }
+                }
                 Err(_e) => panic!("Env Error: REDDIT_API_BASE_URL does not exist"),
             },
         }
