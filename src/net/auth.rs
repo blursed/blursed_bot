@@ -31,7 +31,7 @@ impl<'a> Auth<'a> {
 
         let mut result = self
             .client
-            .post("https://www.reddit.com/api/v1/access_token/.json")
+            .post(&self.config.access_token_url)
             .form(&params)
             .header(AUTHORIZATION, format!("Basic {:?}", self.get_basic_token()))
             .send()
@@ -44,5 +44,38 @@ impl<'a> Auth<'a> {
     fn get_basic_token(&self) -> String {
         let raw_basic_token = [self.config.id.as_str(), self.config.secret.as_str()].join(":");
         base64::encode(&raw_basic_token)
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use mockito::{mock, Matcher};
+    use serde_json::json;
+    use crate::net::auth::Auth;
+    use crate::shared::config::Config;
+    use reqwest::header::AUTHORIZATION;
+
+    #[test]
+    fn test_something() {
+        let client = reqwest::Client::new();
+        let config = Config::load();
+        let auth = Auth::new(&client, &config);
+
+        let access_token = "access token";
+        let response_payload = json!({
+           "access_token": access_token,
+           "token_type": "type",
+           "expires_in": 123,
+           "scope": "test",
+        });
+
+        let m = mock("POST", "/access_token")
+            .match_header(AUTHORIZATION.as_str(), Matcher::Any)
+            .with_status(200)
+            .with_header("content-type", "application/json")
+            .with_body(response_payload.to_string())
+            .create();
+
+        assert_eq!(auth.get_access_token(), access_token)
     }
 }

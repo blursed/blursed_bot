@@ -22,7 +22,7 @@ impl<'a> RedditClient<'a> {
         }
     }
 
-    pub fn get<S: Deserialize<'a>, T: Serialize>(&self, path: &str, params: &T) -> S {
+    /*pub fn get<S: Deserialize<'a>, T: Serialize>(&self, path: &str, params: &T) -> S {
         let access_token = self.auth.get_access_token();
         println!(
             "checking access token {:?}",
@@ -37,5 +37,5 @@ impl<'a> RedditClient<'a> {
             .unwrap();
         let response: S = result.json().unwrap();
         response
-    }
+    }*/
 }

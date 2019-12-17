@@ -37,7 +37,7 @@ struct SearchResponse {
 }
 
 fn main() {
-    let args: Vec<String> = std::env::args().collect();
+    /*let args: Vec<String> = std::env::args().collect();
     let api_key = match args.len() {
         0 | 1 => panic!("No api-key in args! Usage: cargo run --example slack_example -- <api-key>"),
         x => args[x - 1].clone(),
@@ -53,5 +53,5 @@ fn main() {
     let reddit_client = RedditClient::new(&config, &client);
     let params = [("q", "waiting"), ("restrict_sr", "true")];
     reddit_client.get::<SearchResponse>("r/blursedimages/search", &params);
-    println!("api url {:?}", config.api_url("test"));
+    println!("api url {:?}", config.api_url("test"));*/
 }
