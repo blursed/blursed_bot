@@ -7,6 +7,7 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+dotenv = "0.15.0"
 slack = "0.22.0"
 slack_api = "0.21.0"
 reqwest = "0.9.22"
