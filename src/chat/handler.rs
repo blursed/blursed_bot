@@ -3,6 +3,17 @@ use slack_api;
 
 pub struct Handler;
 
+impl Handler {
+
+    pub fn listen_and_respond(&mut self, token: &str) {
+        let r = slack::RtmClient::login_and_run(&token, self);
+        match r {
+            Ok(_) => {},
+            Err(err) => panic!("Error: {}", err),
+        }
+    }
+}
+
 impl slack::EventHandler for Handler {
 
     fn on_event(&mut self, client: &slack::RtmClient, event: slack::Event) {
@@ -11,12 +22,10 @@ impl slack::EventHandler for Handler {
                 slack_api::Message::Standard(message_standard) => {
                     let testing_channel_id = client.start_response().channels.as_ref()
                         .and_then(|channels| {
-                                      channels
-                                          .iter()
-                                          .find(|chan| match chan.name {
-                                                    None => false,
-                                                    Some(ref name) => name == "testing_blursed_bot",
-                                                })
+                                      channels.iter().find(|chan| match chan.name {
+                                          None => false,
+                                          Some(ref name) => name == "testing_blursed_bot",
+                                      })
                                   })
                         .and_then(|chan| chan.id.as_ref())
                         .expect("testing_blursed_bot channel not found");
