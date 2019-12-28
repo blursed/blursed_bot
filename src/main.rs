@@ -11,23 +11,20 @@
 )]
 
 mod chat;
+mod shared;
 
 use crate::chat::handler::Handler;
+use crate::shared::config::Config;
 
 fn main() {
-    
-    // TODO Put this env var in Config object
-    match std::env::var("SLACK_BOT_OAUTH_ACCESS_TOKEN") {
-        Ok(token) => {
-            let mut chat_handler = Handler;
-            let r = slack::RtmClient::login_and_run(&token, &mut chat_handler);
-            match r {
-                Ok(_) => {}
-                Err(err) => panic!("Error: {}", err),
-            }
-        },
-        _ => {
-            panic!("Error: SLACK_BOT_OAUTH_ACCESS_TOKEN environment variable not found")
-        },
+
+    let config = Config::load();
+
+    let mut chat_handler = Handler;
+    let token = config.slack_bot_oauth_access_token;
+    let r = slack::RtmClient::login_and_run(&token, &mut chat_handler);
+    match r {
+        Ok(_) => {}
+        Err(err) => panic!("Error: {}", err),
     }
 }
