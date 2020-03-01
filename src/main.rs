@@ -10,20 +10,17 @@
     unused_qualifications
 )]
 
-mod chat;
+use actix_web::{get, web, App, HttpServer, Responder};
 
-use crate::chat::handler::Handler;
+#[get("/index.json")]
+async fn index(_info: web::Path<()>) -> impl Responder {
+    format!("Hi it's blursed bot")
+}
 
-fn main() {
-    let args: Vec<String> = std::env::args().collect();
-    let api_key = match args.len() {
-        0 | 1 => panic!("No api-key in args! Usage: cargo run --example slack_example -- <api-key>"),
-        x => args[x - 1].clone(),
-    };
-    let mut chat_handler = Handler;
-    let r = slack::RtmClient::login_and_run(&api_key, &mut chat_handler);
-    match r {
-        Ok(_) => {}
-        Err(err) => panic!("Error: {}", err),
-    }
+#[actix_rt::main]
+async fn main() -> std::io::Result<()> {
+    HttpServer::new(|| App::new().service(index))
+        .bind("127.0.0.1:8080")?
+        .run()
+        .await
 }

@@ -7,6 +7,8 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-slack = "0.22.0"
+actix-rt = "1"
+actix-web = "2"
 reqwest = "0.9.22"
 serde = "1.0.103"
+slack = "0.22.0"
