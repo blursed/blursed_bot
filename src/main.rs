@@ -10,10 +10,10 @@
     unused_qualifications
 )]
 
-use actix_web::{get, web, App, HttpServer, Responder};
+use actix_web::{post, web, App, HttpServer, Responder};
 use std::env;
 
-#[get("/")]
+#[post("/")]
 async fn index(_info: web::Path<()>) -> impl Responder {
     format!("Hi it's blursed bot")
 }
