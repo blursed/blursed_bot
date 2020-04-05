@@ -12,7 +12,7 @@
 
 use actix_web::{get, web, App, HttpServer, Responder};
 
-#[get("/index.json")]
+#[get("/")]
 async fn index(_info: web::Path<()>) -> impl Responder {
     format!("Hi it's blursed bot")
 }
@@ -20,7 +20,8 @@ async fn index(_info: web::Path<()>) -> impl Responder {
 #[actix_rt::main]
 async fn main() -> std::io::Result<()> {
     HttpServer::new(|| App::new().service(index))
-        .bind("0.0.0.0:3000")?
+        .bind(("0.0.0.0", 3000))
+        .expect("Cannot bind to port 3000")
         .run()
         .await
 }
