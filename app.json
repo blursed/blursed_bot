@@ -1,0 +1,11 @@
+{
+    "name": "blursed_bot",
+    "description": "Server for blursed_bot",
+    "repository": "https://github.com/blursed/blursed_bot",
+    "success_url": "/",
+    "keywords": ["slack", "blursed"],
+    "website": "https://github.com/blursed/blursed_bot",
+    "env": {
+      "BUILDPACK_URL": "https://github.com/emk/heroku-buildpack-rust.git"
+    }
+  }
