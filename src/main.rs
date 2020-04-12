@@ -11,11 +11,22 @@
 )]
 
 use actix_web::{get, post, web, App, HttpServer, Responder};
+use serde::Serialize;
 use std::env;
+
+#[derive(Serialize)]
+struct Message {
+    response_type: String,
+    text: String,
+}
 
 #[post("/")]
 async fn index(_info: web::Path<()>) -> impl Responder {
-    format!("Hi it's blursed bot")
+    let message = Message{
+        response_type: "in_channel".to_string(),
+        text: "Hello from blursed_bot!".to_string(),
+    };
+    web::Json(message)
 }
 
 #[get("/ping")]
