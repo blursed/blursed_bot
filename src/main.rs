@@ -31,7 +31,7 @@ async fn index(_info: web::Path<()>) -> impl Responder {
 
 #[get("/ping")]
 async fn ping(_info: web::Path<()>) -> impl Responder {
-    format!("pong")
+    "pong".to_string()
 }
 
 #[actix_rt::main]
