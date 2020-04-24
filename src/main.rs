@@ -11,20 +11,27 @@
 )]
 
 use actix_web::{get, post, web, App, HttpServer, Responder};
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use std::env;
 
+// What the user types after /blursed
+#[derive(Deserialize)]
+struct IncomingMessage {
+    text: String,
+}
+
+// What blursed_bot sends back to Slack
 #[derive(Serialize)]
-struct Message {
+struct OutgoingMessage {
     response_type: String,
     text: String,
 }
 
 #[post("/")]
-async fn index(_info: web::Path<()>) -> impl Responder {
-    let message = Message{
+async fn index(form: web::Form<IncomingMessage>) -> impl Responder {
+    let message = OutgoingMessage{
         response_type: "in_channel".to_string(),
-        text: "Hello from blursed_bot!".to_string(),
+        text: format!("You typed: {}", form.text),
     };
     web::Json(message)
 }
@@ -41,6 +48,5 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(|| App::new()
         .service(index)
         .service(ping)
-    )
-    .bind(("0.0.0.0", port)).expect("Cannot bind to port").run().await
+    ).bind(("0.0.0.0", port)).expect("Cannot bind to port").run().await
 }
