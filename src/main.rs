@@ -10,22 +10,11 @@
     unused_qualifications
 )]
 
+extern crate blursed_bot;
+
 use actix_web::{get, post, web, App, HttpServer, Responder};
-use serde::{Deserialize, Serialize};
+use blursed_bot::slack::{IncomingMessage, OutgoingMessage};
 use std::env;
-
-// What the user types after /blursed
-#[derive(Deserialize)]
-struct IncomingMessage {
-    text: String,
-}
-
-// What blursed_bot sends back to Slack
-#[derive(Serialize)]
-struct OutgoingMessage {
-    response_type: String,
-    text: String,
-}
 
 #[post("/")]
 async fn index(form: web::Form<IncomingMessage>) -> impl Responder {
