@@ -10,8 +10,10 @@
     unused_qualifications
 )]
 
+mod chat;
+
 use actix_web::{get, post, web, App, HttpServer, Responder};
-use blursed_bot::slack::{IncomingMessage, OutgoingMessage};
+use chat::slack::{IncomingMessage, OutgoingMessage};
 use std::env;
 
 #[post("/")]
