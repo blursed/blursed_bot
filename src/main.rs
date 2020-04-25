@@ -10,8 +10,6 @@
     unused_qualifications
 )]
 
-extern crate blursed_bot;
-
 use actix_web::{get, post, web, App, HttpServer, Responder};
 use blursed_bot::slack::{IncomingMessage, OutgoingMessage};
 use std::env;
