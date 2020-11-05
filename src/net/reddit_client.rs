@@ -22,12 +22,9 @@ impl<'a> RedditClient<'a> {
         }
     }
 
-    /*pub fn get<S: Deserialize<'a>, T: Serialize>(&self, path: &str, params: &T) -> S {
+    pub fn get<S: Deserialize<'a>, T: Serialize>(&self, path: &str, params: &T) -> S {
         let access_token = self.auth.get_access_token();
-        println!(
-            "checking access token {:?}",
-            format!("Bearer {}", access_token)
-        );
+
         let mut result = self
             .client
             .get(self.config.api_url(path).as_str())
@@ -37,5 +34,5 @@ impl<'a> RedditClient<'a> {
             .unwrap();
         let response: S = result.json().unwrap();
         response
-    }*/
+    }
 }
