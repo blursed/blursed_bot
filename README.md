@@ -6,7 +6,7 @@
 
 **TODO**
 
-## 1. Development
+## Development
 
 You will need [Rust](https://www.rust-lang.org/tools/install) installed.
 
@@ -20,7 +20,7 @@ To run the test suite: `cargo test`
 
 Push to master and Travis will automatically deploy to Heroku, provided CI passes.
 
-#### 1.1. Reddit API
+#### Reddit API
 
 You can create a Reddit app at https://www.reddit.com/prefs/apps/. Currently, we are using `script app` in reddit_client.rs.
 - Create a script app and copy app id and secret

@@ -396,6 +396,7 @@ dependencies = [
  "actix-web",
  "base64 0.11.0",
  "dotenv",
+ "rand 0.6.5",
  "reqwest",
  "serde",
  "serde_json",

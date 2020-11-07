@@ -36,6 +36,13 @@ async fn index(form: web::Form<IncomingMessage>) -> impl Responder {
 
 #[get("/ping")]
 async fn ping(_info: web::Path<()>) -> impl Responder {
+    let client = reqwest::Client::new();
+    let config = Config::load();
+    let reddit_client = RedditClient::new(&config, &client);
+    let params = [("q", "waiting"), ("restrict_sr", "true")];
+    let search_result = reddit_client.blursed_search(&params);
+    println!("{:?} search result!", search_result);
+    println!("api url {:?}", config.api_url("test"));
     "pong".to_string()
 }
 
