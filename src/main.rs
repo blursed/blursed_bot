@@ -14,8 +14,6 @@ extern crate serde;
 extern crate dotenv;
 mod chat;
 
-use crate::chat::handler::Handler;
-
 mod net;
 mod shared;
 
@@ -23,25 +21,30 @@ use crate::net::auth::Auth;
 use crate::net::reddit_client::RedditClient;
 use crate::shared::config::Config;
 use net::auth;
+use actix_web::{get, post, web, App, HttpServer, Responder};
+use chat::slack::{IncomingMessage, OutgoingMessage};
+use std::env;
 
-fn main() {
-    /*let args: Vec<String> = std::env::args().collect();
-    let api_key = match args.len() {
-        0 | 1 => panic!("No api-key in args! Usage: cargo run --example slack_example -- <api-key>"),
-        x => args[x - 1].clone(),
+#[post("/")]
+async fn index(form: web::Form<IncomingMessage>) -> impl Responder {
+    let message = OutgoingMessage{
+        response_type: "in_channel".to_string(),
+        text: format!("You typed: {}", form.text),
     };
-    let mut chat_handler = Handler;
-    let r = slack::RtmClient::login_and_run(&api_key, &mut chat_handler);
-    match r {
-        Ok(_) => {}
-        Err(err) => panic!("Error: {}", err),
-    } */
-    let client = reqwest::Client::new();
-    let config = Config::load();
-    let reddit_client = RedditClient::new(&config, &client);
-    let params = [("q", "waiting"), ("restrict_sr", "true")];
-    let search_result = reddit_client.blursed_search(&params);
-    //::<SearchResponse>
-    println!("{:?} search result!", search_result);
-    println!("api url {:?}", config.api_url("test"));
+    web::Json(message)
+}
+
+#[get("/ping")]
+async fn ping(_info: web::Path<()>) -> impl Responder {
+    "pong".to_string()
+}
+
+#[actix_rt::main]
+async fn main() -> std::io::Result<()> {
+    let port_string = env::var("PORT").unwrap_or_else(|_| "3000".to_string());
+    let port = port_string.parse().expect("PORT must be a number");
+    HttpServer::new(|| App::new()
+        .service(index)
+        .service(ping)
+    ).bind(("0.0.0.0", port)).expect("Cannot bind to port").run().await
 }

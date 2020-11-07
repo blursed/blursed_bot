@@ -1,12 +1,15 @@
 language: rust
 rust:
-  - stable
+- stable
 before_script:
-  - rustup component add clippy
+- rustup component add clippy
 script:
-  - cargo clippy
-  # if you want the build job to fail when encountering warnings, use
-  - cargo clippy -- -D warnings
-  # in order to also check tests and non-default crate features, use
-  - cargo clippy --all-targets --all-features -- -D warnings
-  - cargo test
+- cargo clippy
+- cargo clippy -- -D warnings
+- cargo clippy --all-targets --all-features -- -D warnings
+- cargo test
+deploy:
+  provider: heroku
+  app: infinite-anchorage-38141
+  api_key:
+    secure: ngeT4EDHW3PQinppW899yvFXwW5xTfh3hdnit7XVPVFK/2r+hcF10F5ScpnMOqA6YqEUUB+ha7NU8Pyt+2nfTcD+bVkPDWqhOYxoZaokDicIBfOY9Uw86NQNKh2oopJ19HhDxN/hFMIVoCTzS2tBkVME7Ne5dq4BBFrDN8/q9hxYWvhLaVW+IfXf8S24XAzrTINoiwF4r5u+Po94pNcGPyJwqFPaRX3v6xKmXQjiv18URaOuneAPeLabhl8Ns+qbzO4eDdUiF/YaL+viCw5ibtQqaSiJJrdsrM9Q7Yg9L4IUKqL3dZCWdyuZX9B4/exQx9BLXVRiiRWs8svuuXjrYBAhtqcup8tTOrMIztkRWrUY09doOW+Lmcn2pb88zKMLRBSWaX/A0dZ2dHeUE7wBX5fobGaRAe3OaDhdBOiVSp2T6bYT4BB49ubRmdy7Y4StCHVre+OtoczDqIoWt8vni3u82Eaq05hL+62XjoP05svBauKTJnkdm/Wd2g8pKWHsO7lAlAP/q0O4VBZKgkoPIdpfN/3HGs8G3FDOR/f5jKcOuo27dVCenUbd4iukb5g7BLRzwuhAZR3jPG91wZuuqVc7jRo3jjhRvjCyhwa8bFN8H4XzLuh5EbZ2DMrOk7rNAr7W2DRwqMly0RHjya232bNsRadUQoRWJL/OLHW5JgU=

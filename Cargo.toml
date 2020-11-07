@@ -9,10 +9,9 @@ edition = "2018"
 [dependencies]
 base64 = "0.11.0"
 slack = "0.22.0"
+actix-rt = "1"
+actix-web = "2"
 reqwest = "0.9.22"
 serde = "1.0.103"
 serde_json = "1.0.44"
 dotenv = "0.15.0"
-
-[dev-dependencies]
-mockito = "0.22.0"
