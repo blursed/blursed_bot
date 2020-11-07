@@ -24,18 +24,6 @@ use crate::net::reddit_client::RedditClient;
 use crate::shared::config::Config;
 use net::auth;
 
-#[derive(Deserialize, Debug)]
-struct SearchResponseData {
-    after: String,
-    dist: i32,
-}
-
-#[derive(Deserialize, Debug)]
-struct SearchResponse {
-    kind: String,
-    data: SearchResponseData,
-}
-
 fn main() {
     /*let args: Vec<String> = std::env::args().collect();
     let api_key = match args.len() {
@@ -52,7 +40,8 @@ fn main() {
     let config = Config::load();
     let reddit_client = RedditClient::new(&config, &client);
     let params = [("q", "waiting"), ("restrict_sr", "true")];
-    reddit_client.get("r/blursedimages/search", &params);
+    let search_result = reddit_client.blursed_search(&params);
     //::<SearchResponse>
+    println!("{:?} search result!", search_result);
     println!("api url {:?}", config.api_url("test"));
 }

@@ -9,6 +9,19 @@ pub struct RedditClient<'a> {
     auth: Auth<'a>,
     config: &'a Config,
     client: &'a Client,
+    blursed_url_path: String,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct SearchResponseData {
+    after: String,
+    dist: i32,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct SearchResponse {
+    kind: String,
+    data: SearchResponseData,
 }
 
 impl<'a> RedditClient<'a> {
@@ -19,23 +32,25 @@ impl<'a> RedditClient<'a> {
             auth,
             config,
             client,
+            blursed_url_path: "r/blursedimages/search".to_owned(),
         }
     }
 
-    pub fn blursed_search()
-
-    pub fn get<T: Serialize>(&self, path: &str, params: &T) {
+    pub fn blursed_search<T>(&self, params: &T) -> SearchResponse
+    where
+        T: Serialize,
+    {
         let access_token = self.auth.get_access_token();
 
         let mut result = self
             .client
-            .get(self.config.api_url(path).as_str())
+            .get(self.config.api_url(&self.blursed_url_path).as_str())
             .query(params)
             .header("Authorization", format!("Bearer {}", access_token))
             .send()
             .unwrap();
-        println!("checking get result {:?}", result.text())
-        // let response: S = result.json().unwrap();
-        // response
+        // println!("checking get result {:?}", result.text())
+        let response: SearchResponse  = result.json().unwrap();
+        response
     }
 }
