@@ -35,6 +35,7 @@ You can create a Reddit app at https://www.reddit.com/prefs/apps/. Currently, we
 - Use tokio async for reqwest
 - In Reddit API apps, investigate the differences between `script` and `web` app
 - Use enum to represent serde parsed object fields such as `token_type`
+- `NSFW` filter from the search
 
 ## License
 

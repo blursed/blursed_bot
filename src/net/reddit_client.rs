@@ -13,9 +13,21 @@ pub struct RedditClient<'a> {
 }
 
 #[derive(Deserialize, Debug)]
+pub struct SearchHit {
+    title: String,
+    url: String,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct SearchResponseDataChild {
+    data: SearchHit,
+}
+
+#[derive(Deserialize, Debug)]
 pub struct SearchResponseData {
     after: String,
     dist: i32,
+    children: Vec<SearchResponseDataChild>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -36,7 +48,7 @@ impl<'a> RedditClient<'a> {
         }
     }
 
-    pub fn blursed_search<T>(&self, params: &T) -> SearchResponse
+    pub fn blursed_search<T>(&self, params: &T) -> Vec<SearchHit>
     where
         T: Serialize,
     {
@@ -49,8 +61,14 @@ impl<'a> RedditClient<'a> {
             .header("Authorization", format!("Bearer {}", access_token))
             .send()
             .unwrap();
-        // println!("checking get result {:?}", result.text())
-        let response: SearchResponse  = result.json().unwrap();
+
+        let response: SearchResponse = result.json().unwrap();
+
         response
+            .data
+            .children
+            .into_iter()
+            .map(|x| x.data)
+            .collect::<Vec<SearchHit>>()
     }
 }
