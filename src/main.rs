@@ -52,6 +52,7 @@ fn main() {
     let config = Config::load();
     let reddit_client = RedditClient::new(&config, &client);
     let params = [("q", "waiting"), ("restrict_sr", "true")];
-    reddit_client.get::<SearchResponse>("r/blursedimages/search", &params);
+    reddit_client.get("r/blursedimages/search", &params);
+    //::<SearchResponse>
     println!("api url {:?}", config.api_url("test"));
 }

@@ -1,6 +1,4 @@
 use dotenv::dotenv;
-#[cfg(test)]
-use mockito;
 use std::env;
 
 #[derive(Debug)]
@@ -34,23 +32,11 @@ impl Config {
                 Err(_e) => panic!("Env Error: REDDIT_APP_SECRET does not exist"),
             },
             access_token_url: match env::var("REDDIT_API_ACCESS_TOKEN_URL") {
-                Ok(s) => {
-                    if cfg!(test) {
-                        format!("{}/access_token", mockito::server_url())
-                    } else {
-                        s
-                    }
-                }
+                Ok(s) => s,
                 Err(_e) => panic!("Env Error: REDDIT_API_ACCESS_TOKEN_URL does not exist"),
             },
             api_base_url: match env::var("REDDIT_API_BASE_URL") {
-                Ok(s) => {
-                    if cfg!(test) {
-                        mockito::server_url()
-                    } else {
-                        s
-                    }
-                }
+                Ok(s) => s,
                 Err(_e) => panic!("Env Error: REDDIT_API_BASE_URL does not exist"),
             },
         }

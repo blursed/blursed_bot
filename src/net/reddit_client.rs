@@ -22,7 +22,9 @@ impl<'a> RedditClient<'a> {
         }
     }
 
-    pub fn get<S: Deserialize<'a>, T: Serialize>(&self, path: &str, params: &T) -> S {
+    pub fn blursed_search()
+
+    pub fn get<T: Serialize>(&self, path: &str, params: &T) {
         let access_token = self.auth.get_access_token();
 
         let mut result = self
@@ -32,7 +34,8 @@ impl<'a> RedditClient<'a> {
             .header("Authorization", format!("Bearer {}", access_token))
             .send()
             .unwrap();
-        let response: S = result.json().unwrap();
-        response
+        println!("checking get result {:?}", result.text())
+        // let response: S = result.json().unwrap();
+        // response
     }
 }

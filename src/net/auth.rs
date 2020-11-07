@@ -51,7 +51,6 @@ impl<'a> Auth<'a> {
 mod test {
     use crate::net::auth::Auth;
     use crate::shared::config::Config;
-    use mockito::{mock, Matcher};
     use reqwest::header::AUTHORIZATION;
     use serde_json::json;
 
