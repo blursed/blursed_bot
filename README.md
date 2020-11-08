@@ -36,6 +36,7 @@ You can create a Reddit app at https://www.reddit.com/prefs/apps/. Currently, we
 - In Reddit API apps, investigate the differences between `script` and `web` app
 - Use enum to represent serde parsed object fields such as `token_type`
 - `NSFW` filter from the search
+- Add docs for modules like reddit_client.rs, shared and chat
 
 ## License
 
