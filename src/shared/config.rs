@@ -1,7 +1,7 @@
 use dotenv::dotenv;
 use std::env;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Config {
     pub username: String,
     pub password: String,

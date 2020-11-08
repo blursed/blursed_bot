@@ -35,10 +35,8 @@ async fn index(form: web::Form<IncomingMessage>) -> impl Responder {
 }
 
 #[get("/ping")]
-async fn ping(_info: web::Path<()>) -> impl Responder {
-    let client = reqwest::Client::new();
-    let config = Config::load();
-    let reddit_client = RedditClient::new(&config, &client);
+async fn ping(request: web::Data<reqwest::Client>, config: web::Data<Config>) -> impl Responder {
+    let reddit_client = RedditClient::new(&config, &request);
     let params = [("q", "waiting"), ("restrict_sr", "true")];
     let random_search_hit = reddit_client.blursed_search(&params);
     println!("{:?} random search result!", random_search_hit);
@@ -47,11 +45,20 @@ async fn ping(_info: web::Path<()>) -> impl Responder {
 
 #[actix_rt::main]
 async fn main() -> std::io::Result<()> {
+    let request = reqwest::Client::new();
+    let config = Config::load();
     let port_string = env::var("PORT").unwrap_or_else(|_| "3000".to_string());
     let port = port_string.parse().expect("PORT must be a number");
-    HttpServer::new(|| App::new().service(index).service(ping))
-        .bind(("0.0.0.0", port))
-        .expect("Cannot bind to port")
-        .run()
-        .await
+
+    HttpServer::new(move || {
+        App::new()
+            .data(request.clone())
+            .data(config.clone())
+            .service(index)
+            .service(ping)
+    })
+    .bind(("0.0.0.0", port))
+    .expect("Cannot bind to port")
+    .run()
+    .await
 }
