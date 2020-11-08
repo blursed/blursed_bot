@@ -1,5 +1,6 @@
 use crate::net::auth::Auth;
 use crate::shared::config::Config;
+use rand::prelude::*;
 use reqwest;
 use reqwest::header::AUTHORIZATION;
 use reqwest::Client;
@@ -48,10 +49,11 @@ impl<'a> RedditClient<'a> {
         }
     }
 
-    pub fn blursed_search<T>(&self, params: &T) -> Vec<SearchHit>
+    pub fn blursed_search<T>(&self, params: &T) -> Option<SearchHit>
     where
         T: Serialize,
     {
+        let mut rng = thread_rng();
         let access_token = self.auth.get_access_token();
 
         let mut result = self
@@ -69,6 +71,6 @@ impl<'a> RedditClient<'a> {
             .children
             .into_iter()
             .map(|x| x.data)
-            .collect::<Vec<SearchHit>>()
+            .choose(&mut rng)
     }
 }

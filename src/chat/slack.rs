@@ -16,4 +16,3 @@ pub struct OutgoingMessage {
     pub response_type: String,
     pub text: String,
 }
-

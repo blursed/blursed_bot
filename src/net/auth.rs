@@ -47,6 +47,7 @@ impl<'a> Auth<'a> {
     }
 }
 
+/*
 #[cfg(test)]
 mod test {
     use crate::net::auth::Auth;
@@ -78,3 +79,4 @@ mod test {
         assert_eq!(auth.get_access_token(), access_token)
     }
 }
+*/

@@ -20,14 +20,14 @@ mod shared;
 use crate::net::auth::Auth;
 use crate::net::reddit_client::RedditClient;
 use crate::shared::config::Config;
-use net::auth;
 use actix_web::{get, post, web, App, HttpServer, Responder};
 use chat::slack::{IncomingMessage, OutgoingMessage};
+use net::auth;
 use std::env;
 
 #[post("/")]
 async fn index(form: web::Form<IncomingMessage>) -> impl Responder {
-    let message = OutgoingMessage{
+    let message = OutgoingMessage {
         response_type: "in_channel".to_string(),
         text: format!("You typed: {}", form.text),
     };
@@ -40,9 +40,8 @@ async fn ping(_info: web::Path<()>) -> impl Responder {
     let config = Config::load();
     let reddit_client = RedditClient::new(&config, &client);
     let params = [("q", "waiting"), ("restrict_sr", "true")];
-    let search_result = reddit_client.blursed_search(&params);
-    println!("{:?} search result!", search_result);
-    println!("api url {:?}", config.api_url("test"));
+    let random_search_hit = reddit_client.blursed_search(&params);
+    println!("{:?} random search result!", random_search_hit);
     "pong".to_string()
 }
 
@@ -50,8 +49,9 @@ async fn ping(_info: web::Path<()>) -> impl Responder {
 async fn main() -> std::io::Result<()> {
     let port_string = env::var("PORT").unwrap_or_else(|_| "3000".to_string());
     let port = port_string.parse().expect("PORT must be a number");
-    HttpServer::new(|| App::new()
-        .service(index)
-        .service(ping)
-    ).bind(("0.0.0.0", port)).expect("Cannot bind to port").run().await
+    HttpServer::new(|| App::new().service(index).service(ping))
+        .bind(("0.0.0.0", port))
+        .expect("Cannot bind to port")
+        .run()
+        .await
 }
