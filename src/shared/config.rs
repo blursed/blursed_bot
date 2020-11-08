@@ -9,12 +9,22 @@ pub struct Config {
     pub secret: String,
     pub access_token_url: String,
     pub api_base_url: String,
+    pub http_host: String,
+    pub http_port: u16,
 }
 
 impl Config {
     pub fn load() -> Config {
         dotenv().ok();
         Config {
+            http_host: match env::var("HTTP_HOST") {
+                Ok(s) => s,
+                _ => "0.0.0.0".to_owned(),
+            },
+            http_port: match env::var("HTTP_PORT") {
+                Ok(s) => s.parse().unwrap_or(3000),
+                _ => 3000,
+            },
             username: match env::var("REDDIT_USERNAME") {
                 Ok(s) => s,
                 Err(_e) => panic!("Env Error: REDDIT_USERNAME does not exist"),

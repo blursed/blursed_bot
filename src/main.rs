@@ -47,8 +47,11 @@ async fn ping(request: web::Data<reqwest::Client>, config: web::Data<Config>) ->
 async fn main() -> std::io::Result<()> {
     let request = reqwest::Client::new();
     let config = Config::load();
-    let port_string = env::var("PORT").unwrap_or_else(|_| "3000".to_string());
-    let port = port_string.parse().expect("PORT must be a number");
+    let address = format!(
+        "{}:{:?}",
+        &config.http_host.to_owned(),
+        &config.http_port.to_owned()
+    );
 
     HttpServer::new(move || {
         App::new()
@@ -57,8 +60,7 @@ async fn main() -> std::io::Result<()> {
             .service(index)
             .service(ping)
     })
-    .bind(("0.0.0.0", port))
-    .expect("Cannot bind to port")
+    .bind(address)?
     .run()
     .await
 }
