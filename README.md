@@ -27,6 +27,11 @@ You can create a Reddit app at https://www.reddit.com/prefs/apps/. Currently, we
 - make a copy of .env.example into .env and paste app id and secret into .env
 - Make sure to enter your Reddit user id and password
 
+#### Slack API
+
+We use Rich Message Layout to construct blursed image message
+Please refer https://api.slack.com/messaging/composing/layouts to learn how to use BlockKit Message
+
 ####### Troubleshooting
 - If your Reddit tokens don't work anymore, it's highly likely that the token is expired, please make a new script app from the URL above
 
