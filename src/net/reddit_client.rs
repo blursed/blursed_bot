@@ -15,8 +15,8 @@ pub struct RedditClient<'a> {
 
 #[derive(Deserialize, Debug)]
 pub struct SearchHit {
-    title: String,
-    url: String,
+    pub title: String,
+    pub url: String,
 }
 
 #[derive(Deserialize, Debug)]

@@ -1,3 +1,4 @@
+use crate::net::reddit_client::SearchHit;
 use serde::{Deserialize, Serialize};
 
 // See https://api.slack.com/interactivity/slash-commands for the full Slack slash command API.
@@ -16,3 +17,9 @@ pub struct OutgoingMessage {
     pub response_type: String,
     pub text: String,
 }
+
+/*
+pub fn transform_reddit_search_hit_to_payload<'a>(search_hit: &'a SearchHit) -> Option<OutgoingMessage> {
+
+}
+*/
