@@ -63,11 +63,13 @@ impl<'a> RedditClient<'a> {
 
         let response: SearchResponse = result.json()?;
 
-        Ok(response
+        let search_hits = response
             .data
             .children
             .into_iter()
             .map(|x| x.data)
-            .choose(&mut rng))
+            .choose(&mut rng);
+
+        Ok(search_hits)
     }
 }
