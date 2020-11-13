@@ -1,3 +1,3 @@
-use std::error;
+use std::error::Error;
 
-pub type Result<T> = std::result::Result<T, Box<dyn error::Error>>;
+pub type Result<T> = std::result::Result<T, Box<dyn Error>>;
