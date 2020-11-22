@@ -1,5 +1,6 @@
 use crate::net::auth::Auth;
 use crate::shared::config::Config;
+use crate::shared::error::Result;
 use rand::prelude::*;
 use reqwest;
 use reqwest::header::AUTHORIZATION;
@@ -26,14 +27,11 @@ pub struct SearchResponseDataChild {
 
 #[derive(Deserialize, Debug)]
 pub struct SearchResponseData {
-    after: String,
-    dist: i32,
     children: Vec<SearchResponseDataChild>,
 }
 
 #[derive(Deserialize, Debug)]
 pub struct SearchResponse {
-    kind: String,
     data: SearchResponseData,
 }
 
@@ -49,7 +47,7 @@ impl<'a> RedditClient<'a> {
         }
     }
 
-    pub fn blursed_search<T>(&self, params: &T) -> Option<SearchHit>
+    pub fn blursed_search<T>(&self, params: &T) -> Result<Option<SearchHit>>
     where
         T: Serialize,
     {
@@ -61,16 +59,17 @@ impl<'a> RedditClient<'a> {
             .get(self.config.api_url(&self.blursed_url_path).as_str())
             .query(params)
             .header("Authorization", format!("Bearer {}", access_token))
-            .send()
-            .unwrap();
+            .send()?;
 
-        let response: SearchResponse = result.json().unwrap();
+        let response: SearchResponse = result.json()?;
 
-        response
+        let search_hits = response
             .data
             .children
             .into_iter()
             .map(|x| x.data)
-            .choose(&mut rng)
+            .choose(&mut rng);
+
+        Ok(search_hits)
     }
 }

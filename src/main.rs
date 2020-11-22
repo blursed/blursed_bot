@@ -34,7 +34,14 @@ async fn index(
     let reddit_client = RedditClient::new(&config, &request);
     let params = [("q", &form.text), ("restrict_sr", &"true".to_owned())];
     // TODO: Handle unsafe .unwrap here
-    let random_search_hit = reddit_client.blursed_search(&params).unwrap();
+    /*
+    if let Some(random_search_hit) = reddit_client.blursed_search(&params).unwrap() {
+        ...
+    } else {
+        ...
+    }
+     */
+    let random_search_hit = reddit_client.blursed_search(&params).unwrap().unwrap();
     let message = transform_reddit_search_hit_to_payload(&random_search_hit);
 
     web::Json(message)
