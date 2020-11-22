@@ -12,19 +12,28 @@ macro_rules! create_function {
 macro_rules! print_result {
     ($expression:expr) => {
         println!("{:?} = {:?}", stringify!($expression), $expression)
-    }
+    };
 }
 
 /// overloading
 macro_rules! test {
     ($left:expr; and $right:expr;) => {
-        println!("{:?} and {:?} = {:?}", stringify!($left), stringify!($right), $left && $right)
+        println!(
+            "{:?} and {:?} = {:?}",
+            stringify!($left),
+            stringify!($right),
+            $left && $right
+        )
     };
     ($left:expr; or $right:expr;) => {
-       println!("{:?} or {:?} = {:?}", stringify!($left), stringify!($right), $left || $right)
+        println!(
+            "{:?} or {:?} = {:?}",
+            stringify!($left),
+            stringify!($right),
+            $left || $right
+        )
     };
 }
-
 
 // repeat
 macro_rules! find_min {
