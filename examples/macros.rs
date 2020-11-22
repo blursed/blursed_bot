@@ -1,5 +1,6 @@
 use std::stringify;
 
+/// designators
 macro_rules! create_function {
     ($func_name:ident) => {
         fn $func_name() {
@@ -14,6 +15,25 @@ macro_rules! print_result {
     }
 }
 
+/// overloading
+macro_rules! test {
+    ($left:expr; and $right:expr;) => {
+        println!("{:?} and {:?} = {:?}", stringify!($left), stringify!($right), $left && $right)
+    };
+    ($left:expr; or $right:expr;) => {
+       println!("{:?} or {:?} = {:?}", stringify!($left), stringify!($right), $left || $right)
+    };
+}
+
+
+// repeat
+macro_rules! find_min {
+    ($x:expr) => ($x);
+    ($x:expr, $($y:expr),+) => (
+        std::cmp::min($x, find_min!($($y),+))
+    )
+}
+
 fn main() {
     create_function!(macro_play);
     macro_play();
@@ -22,7 +42,7 @@ fn main() {
         let z = 1u32;
 
         1 + z * 3 / 5
-    })
+    });
 
     /// There are more designators
     /// block
@@ -36,4 +56,8 @@ fn main() {
     // tt (token tree)
     // ty (type)
     // vis (visibility qualifier)
+
+    test!(true; and false;);
+    test!(true; or false;);
+    println!("min: {:?}", find_min!(1, 2, 3, 4, 5));
 }
